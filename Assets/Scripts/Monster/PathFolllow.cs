@@ -11,7 +11,7 @@ public class PathFolllow : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        destination.transform.posititon = new Vector3(xPos, yPos, zPos);
+        destination.transform.position = new Vector3(xPos, yPos, zPos);
         position += 1;
         StartCoroutine(NextDestination());
     }
@@ -20,7 +20,7 @@ public class PathFolllow : MonoBehaviour
     void Update()
     {
         transform.LookAt(destination.transform);
-        transform.postion = Vector3.MoveTowards(transform.position, destination.transform.position, 0.05f);
+        transform.position = Vector3.MoveTowards(transform.position, destination.transform.position, 0.05f);
     }
 
     IEnumerator NextDestination()
