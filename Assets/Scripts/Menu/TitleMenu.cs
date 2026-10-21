@@ -17,4 +17,14 @@ public class TitleMenu : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void OpenSettings()
+    {
+        SceneManager.LoadScene("SettingsMenu");
+    }
+
+    public void BackToMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
 }
