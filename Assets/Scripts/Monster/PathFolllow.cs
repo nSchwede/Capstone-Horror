@@ -5,7 +5,7 @@ public class PathFolllow : MonoBehaviour
 {
     [SerializeField] int xPos = 10; //= start position;
     [SerializeField] int zPos = -12; //= start position;
-    [SerializeField] int yPos = -2; //Monster roam hight
+    [SerializeField] int yPos = 2; //Monster roam hight
     [SerializeField] GameObject destination;
     [SerializeField] int position = 1;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
