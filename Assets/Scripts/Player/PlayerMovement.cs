@@ -12,7 +12,7 @@ public class PlayerMovement : MonoBehaviour
 
     public float airMult;
     
-    bool readyJump;
+    public bool readyJump = true;
 
     [Header("Ground")]
     public float playerHeight;
@@ -35,12 +35,13 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         rb.freezeRotation = true;
+        Physics.gravity = new Vector3(0f,-30f,0f);
     }
 
     private void Update()
     {
         // on ground check
-        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.75f + 10.0f, whatGround); 
+        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.75f + 0.2f, whatGround); 
 
         MyInput();
         SpeedControl();
@@ -62,7 +63,7 @@ public class PlayerMovement : MonoBehaviour
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
 
-        if(Input.GetKeyUp(jumpkey) && readyJump && grounded)
+        if(Input.GetKey(jumpkey) && readyJump && grounded)
         {
             readyJump = false;
 
@@ -104,8 +105,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void Jump()
     {
+        Debug.Log("youre trying at least");
         // reset y velocity
-        //rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+        rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
 
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
     }
