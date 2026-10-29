@@ -44,16 +44,16 @@ public class PathFolllow : MonoBehaviour
         if (position == 3)
         {
             yield return new WaitForSeconds(3);
-            xPos = 20;
-            zPos = -25;
+            xPos = -30;
+            zPos = -33;
             destination.transform.position = new Vector3(xPos, yPos, zPos);
             position += 1;
         }
         if (position == 4)
         {
             yield return new WaitForSeconds(3);
-            xPos = 10;
-            zPos = -30;
+            xPos = -30;
+            zPos = 30;
             destination.transform.position = new Vector3(xPos, yPos, zPos);
             position += 1;
         }
@@ -61,7 +61,7 @@ public class PathFolllow : MonoBehaviour
         {
             yield return new WaitForSeconds(3);
             xPos = 0;
-            zPos = -25;
+            zPos = 0;
             destination.transform.position = new Vector3(xPos, yPos, zPos);
             position += 1;
         }

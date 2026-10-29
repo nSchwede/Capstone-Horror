@@ -1,4 +1,5 @@
 using UnityEngine;
+using TMPro;
 
 public class EnemyVision : MonoBehaviour
 {
@@ -14,15 +15,22 @@ public class EnemyVision : MonoBehaviour
     [Header("State")]
     public bool canSeePlayer;
 
+    [Header("Text To Update")]
+    public TextMeshProUGUI myText;
+
     private void Update()
     {
         canSeePlayer = CheckVision();
 
         if (canSeePlayer)
         {
-            // Insert your chase/attack logic here
-            Debug.Log("Player Spotted!");
+            myText.text = "I can See YOU!";
         }
+        else if(!canSeePlayer)
+        {
+            myText.text = "Where'd you go?";
+        }
+        
     }
 
     private bool CheckVision()
