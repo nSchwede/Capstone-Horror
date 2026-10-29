@@ -914,6 +914,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1557945063}
   - component: {fileID: 1557945062}
+  - component: {fileID: 1557945064}
   m_Layer: 0
   m_Name: monster
   m_TagString: Untagged
@@ -954,6 +955,25 @@ Transform:
   - {fileID: 1022580350}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1557945064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1557945061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6aac83091b8c8c7448a78db55e214dbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyVision
+  player: {fileID: 618115044}
+  viewDistance: 10
+  viewAngle: 45
+  obstructionMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  canSeePlayer: 0
 --- !u!1 &1680560648
 GameObject:
   m_ObjectHideFlags: 0
