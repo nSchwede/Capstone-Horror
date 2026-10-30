@@ -1121,6 +1121,8 @@ MonoBehaviour:
   zPos: -12
   yPos: 2
   destination: {fileID: 1243427346}
+  player: {fileID: 618115041}
+  playerPos: {x: 0, y: 0, z: 0}
   position: 1
 --- !u!4 &1557945063
 Transform:
@@ -1156,7 +1158,6 @@ MonoBehaviour:
   obstructionMask:
     serializedVersion: 2
     m_Bits: 0
-  canSeePlayer: 0
   myText: {fileID: 1603622364}
 --- !u!1 &1603622362
 GameObject:

@@ -13,7 +13,7 @@ public class EnemyVision : MonoBehaviour
     public LayerMask obstructionMask; // Layers that block vision (e.g., Walls, Obstacles)
 
     [Header("State")]
-    public bool canSeePlayer;
+    static public bool canSeePlayer;
 
     [Header("Text To Update")]
     public TextMeshProUGUI myText;
