@@ -10,6 +10,7 @@ public class PathFolllow : MonoBehaviour
     [SerializeField] GameObject player;
     [SerializeField] Vector3 playerPos;
     [SerializeField] int position = 1;
+    private bool routine;
 
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -19,6 +20,7 @@ public class PathFolllow : MonoBehaviour
         destination.transform.position = new Vector3(xPos, yPos, zPos);
         position += 1;
         StartCoroutine(NextDestination());
+        routine = true;
     }
 
     // Update is called once per frame
@@ -26,15 +28,20 @@ public class PathFolllow : MonoBehaviour
     {
         if(EnemyVision.canSeePlayer)
         {
-            //stopcorroutine
+            // startcorroutine if it is stopped
+            if(routine){StopCoroutine(NextDestination());}
+            // updates vector x and z coordinates for player pos
             playerPos.x = player.transform.position.x;
             playerPos.z = player.transform.position.z;
+            // rotate to look and move toward target
             transform.LookAt(player.transform);
             transform.position = Vector3.MoveTowards(transform.position, playerPos, 0.025f);
         }
         else if(!EnemyVision.canSeePlayer)
         {
-            //startcorroutine if it is stopped
+            // startcorroutine if it is stopped
+            if(!routine){StartCoroutine(NextDestination());}
+            // rotate to look and move toward target 
             transform.LookAt(destination.transform);
             transform.position = Vector3.MoveTowards(transform.position, destination.transform.position, 0.025f);
         }
