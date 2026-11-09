@@ -1,30 +1,42 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class TitleMenu : MonoBehaviour
+public class MainMenu : MonoBehaviour
 {
     public void StartGame()
     {
-        SceneManager.LoadScene("SampleScene");
-    }
-
-    public void GoSettings()
-    {
-        SceneManager.LoadScene("SettingsMenu");
-    }
-
-    public void QuitGame()
-    {
-        Application.Quit();
+        StartCoroutine(LoadAfterDelay("SampleScene"));
     }
 
     public void OpenSettings()
     {
-        SceneManager.LoadScene("SettingsMenu");
+        StartCoroutine(LoadAfterDelay("SettingsMenu")); // use your scene's exact name
     }
 
     public void BackToMenu()
     {
-        SceneManager.LoadScene("MainMenu");
+        StartCoroutine(LoadAfterDelay("MainMenu"));
+    }
+
+    public void QuitGame()
+    {
+        StartCoroutine(QuitAfterDelay());
+    }
+
+    IEnumerator QuitAfterDelay()
+    {
+        yield return new WaitForSecondsRealtime(0.3f);
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+    Application.Quit();
+#endif
+    }
+
+    IEnumerator LoadAfterDelay(string sceneName)
+    {
+        yield return new WaitForSecondsRealtime(0.3f);
+        SceneManager.LoadScene(sceneName);
     }
 }
