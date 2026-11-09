@@ -6,11 +6,22 @@ public class PlayerMovement : MonoBehaviour
     [Header("Movement")]
     public float moveSpeed;
 
+    public float jumpForce;
+
+    public float jumpCoolDown;
+
+    public float airMult;
+    
+    public bool readyJump = true;
+
     [Header("Ground")]
     public float playerHeight;
     public float groundDrag;
     public LayerMask whatGround;
-    bool grounded;
+    public bool grounded;
+
+    [Header("Keybinds")]
+    public KeyCode jumpkey = KeyCode.Space;
 
     public Transform orientation;
 
@@ -24,12 +35,13 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         rb.freezeRotation = true;
+        Physics.gravity = new Vector3(0f,-30f,0f);
     }
 
     private void Update()
     {
         // on ground check
-        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatGround); 
+        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.75f + 0.2f, whatGround); 
 
         MyInput();
         SpeedControl();
@@ -50,6 +62,15 @@ public class PlayerMovement : MonoBehaviour
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
+
+        if(Input.GetKey(jumpkey) && readyJump && grounded)
+        {
+            readyJump = false;
+
+            Jump();
+
+            Invoke(nameof(ResetJump), jumpCoolDown);
+        }
     }
 
     private void MovePlayer()
@@ -58,7 +79,16 @@ public class PlayerMovement : MonoBehaviour
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
         // applies the force that moves the player in the calculated direction
-        rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+
+        // on ground
+        if(grounded)
+        {
+            rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+        }
+        else if(!grounded)
+        {
+            rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMult, ForceMode.Force);
+        }
     }
 
     private void SpeedControl()
@@ -71,5 +101,19 @@ public class PlayerMovement : MonoBehaviour
             Vector3 limitedVal = flatVal.normalized * moveSpeed;
             rb.linearVelocity = new Vector3(limitedVal.x, rb.linearVelocity.y, limitedVal.z);
         }
+    }
+
+    private void Jump()
+    {
+        //Debug.Log("youre trying at least");
+        // reset y velocity
+        rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+
+        rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+    }
+
+    private void ResetJump()
+    {
+        readyJump = true;
     }
 }

@@ -5,22 +5,46 @@ public class PathFolllow : MonoBehaviour
 {
     [SerializeField] int xPos = 10; //= start position;
     [SerializeField] int zPos = -12; //= start position;
-    [SerializeField] int yPos = -2; //Monster roam hight
+    [SerializeField] int yPos = 2; //Monster roam hight
     [SerializeField] GameObject destination;
+    [SerializeField] GameObject player;
+    [SerializeField] Vector3 playerPos;
     [SerializeField] int position = 1;
+    private bool routine;
+
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        playerPos = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
         destination.transform.position = new Vector3(xPos, yPos, zPos);
         position += 1;
         StartCoroutine(NextDestination());
+        routine = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.LookAt(destination.transform);
-        transform.position = Vector3.MoveTowards(transform.position, destination.transform.position, 0.05f);
+        if(EnemyVision.canSeePlayer)
+        {
+            // startcorroutine if it is stopped
+            if(routine){StopCoroutine(NextDestination());}
+            // updates vector x and z coordinates for player pos
+            playerPos.x = player.transform.position.x;
+            playerPos.z = player.transform.position.z;
+            // rotate to look and move toward target
+            transform.LookAt(player.transform);
+            transform.position = Vector3.MoveTowards(transform.position, playerPos, 0.025f);
+        }
+        else if(!EnemyVision.canSeePlayer)
+        {
+            // startcorroutine if it is stopped
+            if(!routine){StartCoroutine(NextDestination());}
+            // rotate to look and move toward target 
+            transform.LookAt(destination.transform);
+            transform.position = Vector3.MoveTowards(transform.position, destination.transform.position, 0.025f);
+        }
     }
 
     IEnumerator NextDestination()
@@ -44,16 +68,16 @@ public class PathFolllow : MonoBehaviour
         if (position == 3)
         {
             yield return new WaitForSeconds(3);
-            xPos = 20;
-            zPos = -25;
+            xPos = -30;
+            zPos = -33;
             destination.transform.position = new Vector3(xPos, yPos, zPos);
             position += 1;
         }
         if (position == 4)
         {
             yield return new WaitForSeconds(3);
-            xPos = 10;
-            zPos = -30;
+            xPos = -30;
+            zPos = 30;
             destination.transform.position = new Vector3(xPos, yPos, zPos);
             position += 1;
         }
@@ -61,7 +85,7 @@ public class PathFolllow : MonoBehaviour
         {
             yield return new WaitForSeconds(3);
             xPos = 0;
-            zPos = -25;
+            zPos = 0;
             destination.transform.position = new Vector3(xPos, yPos, zPos);
             position += 1;
         }
